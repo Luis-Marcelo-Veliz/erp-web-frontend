@@ -1,0 +1,28 @@
+import { useState } from 'react';
+import { useRouter } from 'next/router';
+
+export default function LoginPage() {
+  const router = useRouter();
+  const [user, setUser] = useState('');
+  const [pass, setPass] = useState('');
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    // Por ahora simulamos el login
+    if (user === 'admin' && pass === '1234') router.push('/dashboard');
+    else alert('Usuario o contraseña incorrectos');
+  }
+
+  return (
+    <div style={{ maxWidth: 300, margin: 'auto', padding: 20 }}>
+      <h2>Iniciar Sesión</h2>
+      <form onSubmit={handleSubmit}>
+        <label>Usuario</label><br/>
+        <input value={user} onChange={e => setUser(e.target.value)} /><br/>
+        <label>Contraseña</label><br/>
+        <input type="password" value={pass} onChange={e => setPass(e.target.value)} /><br/>
+        <button type="submit">Entrar</button>
+      </form>
+    </div>
+  );
+}

@@ -8,10 +8,20 @@ export default function LoginPage() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    // Por ahora simulamos el login
-    if (user === 'admin' && pass === '1234') router.push('/dashboard');
-    else alert('Usuario o contraseña incorrectos');
-  }
+fetch('http://localhost:3000/auth/login', {
+method: 'POST',
+headers: { 'Content-Type': 'application/json' },
+body: JSON.stringify({ username: user, password: pass }),
+})
+.then(async response => {
+if (!response.ok) throw new Error('Credenciales inválidas');
+const data = await response.json();
+sessionStorage.setItem('token', data.accessToken);
+router.push('/dashboard');
+})
+.catch(() => alert('Credenciales inválidas'));
+}
+
 
   return (
     <div style={{ maxWidth: 300, margin: 'auto', padding: 20 }}>

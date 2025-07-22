@@ -12,7 +12,7 @@ export default function ProductsList() {
 
   useEffect(() => {
     const token = sessionStorage.getItem('token');
-    fetch('http://localhost:3000/products', {
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then(res => res.json())

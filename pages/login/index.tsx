@@ -8,7 +8,7 @@ export default function LoginPage() {
 
   function handleSubmit(e) {
     e.preventDefault();
-fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, {
+fetch(`${process.env.NEXT_PUBLIC_API_URL.replace(/\/$/, '')}/auth/login`, {
 method: 'POST',
 headers: { 'Content-Type': 'application/json' },
 body: JSON.stringify({ username: user, password: pass }),

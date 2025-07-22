@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
+import { getApiBase } from '@/utils/api';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -8,7 +9,7 @@ export default function LoginPage() {
 
   function handleSubmit(e) {
     e.preventDefault();
-fetch(`${process.env.NEXT_PUBLIC_API_URL.replace(/\/$/, '')}/auth/login`, {
+fetch(`${getApiBase()}/auth/login`, {
 method: 'POST',
 headers: { 'Content-Type': 'application/json' },
 body: JSON.stringify({ username: user, password: pass }),

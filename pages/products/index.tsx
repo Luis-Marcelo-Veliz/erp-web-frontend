@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { getApiBase } from '@/utils/api';
 
 interface Product {
   id: number;
@@ -12,7 +13,7 @@ export default function ProductsList() {
 
   useEffect(() => {
     const token = sessionStorage.getItem('token');
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, {
+    fetch(`${getApiBase()}/products`, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then(res => res.json())

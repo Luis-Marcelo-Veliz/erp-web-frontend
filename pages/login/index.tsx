@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
-import { getApiBase } from '@/utils/api';
+import { getApiBase } from '../../utils/api';
 
 export default function LoginPage() {
   const router = useRouter();

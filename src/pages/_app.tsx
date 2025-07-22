@@ -4,8 +4,10 @@ import { useEffect } from 'react';
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
   useEffect(() => {
-    const user = sessionStorage.getItem('user');
-    if (!user && router.pathname !== '/login') router.push('/login');
+    const token = sessionStorage.getItem('token');
+    if (!token && !router.pathname.startsWith('/login')) {
+      router.push('/login');
+    }
   }, [router]);
   return <Component {...pageProps} />;
 }

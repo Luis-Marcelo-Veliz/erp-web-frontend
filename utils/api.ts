@@ -19,4 +19,4 @@ export function getApiBase(): string {
   }
   // Fallback para build/SSR o producción
   return process.env.NEXT_PUBLIC_API_URL || '';
-}
+} 

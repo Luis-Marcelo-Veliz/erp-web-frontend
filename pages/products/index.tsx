@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { getApiBase } from '@/utils/api';
+import { getApiBase } from '../../utils/api';
 
 interface Product {
   id: number;

@@ -3,13 +3,13 @@ import { useEffect } from 'react';
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
-useEffect(() => {
+/*useEffect(() => {
   const token = sessionStorage.getItem('token');
   if (!token && router.pathname !== '/login') {
     // mejor replace para no agregar al historial
     router.replace('/login');
   }
-}, [router]);
+}, [router]);*/
   return <Component {...pageProps} />;
 }
 export default MyApp;

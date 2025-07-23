@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "next dev -p 3001 -H 0.0.0.0",
     "build": "next build",
-    "start": "next start -p 3001 -H 0.0.0.0"
+    "start": "next start -p 3001 -H 0.0.0.0",
+    "check-env": "dotenv -e .env.local -- echo DATABASE_URL is $DATABASE_URL"
   },
   "keywords": [],
   "author": "",
@@ -23,6 +24,7 @@
   "devDependencies": {
     "@types/node": "^24.0.15",
     "@types/react": "^19.1.8",
+    "dotenv-cli": "^9.0.0",
     "typescript": "^5.8.3"
   }
 }

@@ -24,7 +24,7 @@ export default function ProductsList() {
       }
 
       try {
-        const res = await fetch(`${getApiBase()}/products`, {
+        const res = await fetch('/api/products', {
           headers: { Authorization: `Bearer ${token}` },
         });
 

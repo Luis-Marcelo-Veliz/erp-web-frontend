@@ -1,54 +1,59 @@
-import { useState } from 'react';
-import { useRouter } from 'next/router';
-import { getApiBase } from '../../utils/api';
+import { useState } from 'react'
+import Router from 'next/router'
 
-export default function LoginPage() {
-  const router = useRouter();
-  const [user, setUser] = useState('');
-  const [pass, setPass] = useState('');
+export default function Home() {
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const [error, setError] = useState('')
 
-  // Define handleSubmit como async
-  async function handleSubmit(e) {
-    e.preventDefault();
-    try {
-      const res = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username: user, password: pass }),
-        credentials: 'include',
-      });
-      if (!res.ok) {
-        // Si no es 200, lanzamos un error para el catch
-        throw new Error('Credenciales inválidas');
-      }
-      const data = await res.json();
-      sessionStorage.setItem('token', data.accessToken);
-      // Redirige al módulo de Inventarios, por ejemplo:
-      router.push('/products');
-    } catch (err) {
-      alert('Credenciales inválidas');
+  const handleSubmit = async e => {
+    e.preventDefault()
+    setError('')
+    // Llamamos a /api/auth/login, que el proxy redirige a tu backend
+    const res = await fetch('/api/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username, password }),
+    })
+    const body = await res.json()
+    if (!res.ok) {
+      // Si el servidor devuelve 401 y { message }, lo mostramos
+      setError(body.message || 'Error de autenticación')
+      return
     }
+    // Si ok, redirigimos a /dashboard (que puedes crear luego)
+    Router.push('/dashboard')
   }
 
   return (
-    <div style={{ maxWidth: 300, margin: 'auto', padding: 20 }}>
-      <h2>Iniciar Sesión</h2>
+    <div style={{ maxWidth: 400, margin: '50px auto' }}>
+      <h1>Login ERP</h1>
       <form onSubmit={handleSubmit}>
-        <label>Usuario</label><br/>
-        <input
-          value={user}
-          onChange={e => setUser(e.target.value)}
-          required
-        /><br/>
-        <label>Contraseña</label><br/>
-        <input
-          type="password"
-          value={pass}
-          onChange={e => setPass(e.target.value)}
-          required
-        /><br/>
-        <button type="submit">Entrar</button>
+        <div>
+          <input
+            type="text"
+            placeholder="Usuario"
+            value={username}
+            onChange={e => setUsername(e.target.value)}
+            required
+            style={{ width: '100%', padding: 8, marginBottom: 10 }}
+          />
+        </div>
+        <div>
+          <input
+            type="password"
+            placeholder="Contraseña"
+            value={password}
+            onChange={e => setPassword(e.target.value)}
+            required
+            style={{ width: '100%', padding: 8, marginBottom: 10 }}
+          />
+        </div>
+        {error && <p style={{ color: 'red' }}>{error}</p>}
+        <button type="submit" style={{ width: '100%', padding: 10 }}>
+          Entrar
+        </button>
       </form>
     </div>
-  );
+  )
 }

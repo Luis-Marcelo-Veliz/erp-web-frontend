@@ -4,11 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "check-env": "dotenv -e .env.local -- node scripts/checkEnv.js",
+    "predev":   "npm run check-env",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "next dev -p 3001 -H 0.0.0.0",
     "build": "next build",
-    "start": "next start -p 3001 -H 0.0.0.0",
-    "check-env": "dotenv -e .env.local -- echo DATABASE_URL is $DATABASE_URL"
+    "start": "next start -p 3001 -H 0.0.0.0"
   },
   "keywords": [],
   "author": "",

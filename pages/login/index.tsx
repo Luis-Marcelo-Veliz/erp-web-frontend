@@ -15,6 +15,7 @@ export default function LoginPage() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username: user, password: pass }),
+        credentials: 'include',
       });
       if (!res.ok) {
         // Si no es 200, lanzamos un error para el catch

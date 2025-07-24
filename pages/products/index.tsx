@@ -1,6 +1,20 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { getApiBase } from '../../utils/api';
+
+/** Importar la función para detectar la URL base del backend */
+function getBackendBaseUrl(): string {
+  const protocol = window.location.protocol;
+  const hostname = window.location.hostname;
+  const match = hostname.match(/-(\d+)(?=\.)/);
+  if (!match) {
+    console.warn('No se detectó puerto en el hostname, usando mismo host');
+    return `${protocol}//${hostname}`;
+  }
+  const currentPort = parseInt(match[1], 10);
+  const backendPort = currentPort - 1;
+  const backendHost = hostname.replace(`-${currentPort}`, `-${backendPort}`);
+  return `${protocol}//${backendHost}`;
+}
 
 interface Product {
   id: number;
@@ -23,8 +37,9 @@ export default function ProductsList() {
         return;
       }
 
+      const API_URL = getBackendBaseUrl();
       try {
-        const res = await fetch('/api/products', {
+        const res = await fetch(`${API_URL}/products`, {
           headers: { Authorization: `Bearer ${token}` },
         });
 
@@ -42,7 +57,7 @@ export default function ProductsList() {
         const data: Product[] = await res.json();
         setProducts(data);
       } catch (err: any) {
-        console.error(err);
+        console.error('Error al obtener productos:', err);
         setError(err.message || 'Error inesperado');
       }
     }

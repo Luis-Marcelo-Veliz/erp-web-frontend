@@ -35,6 +35,7 @@ export default function LoginPage() {
       res = await fetch(`${API_URL}/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',   // <— ENVÍA y ACEPTA cookies de sesión
         body: JSON.stringify({ username, password }),
       })
     } catch (networkErr) {

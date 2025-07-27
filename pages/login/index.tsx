@@ -1,3 +1,4 @@
+// pages/login/index.tsx
 import { useState } from 'react'
 import Router from 'next/router'
 
@@ -8,7 +9,6 @@ import Router from 'next/router'
 function getBackendBaseUrl(): string {
   const protocol = window.location.protocol // "https:"
   const hostname = window.location.hostname // e.g. "mi-proyecto-xyz-3001.app.github.dev"
-  // Busca un guión seguido de dígitos antes de un punto
   const match = hostname.match(/-(\d+)(?=\.)/)
   if (!match) {
     console.warn('No se detectó puerto en el hostname, usando mismo host')
@@ -30,12 +30,11 @@ export default function LoginPage() {
     setError('')
 
     const API_URL = getBackendBaseUrl()
-    let res, body
+    let res
     try {
       res = await fetch(`${API_URL}/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',   // <— ENVÍA y ACEPTA cookies de sesión
         body: JSON.stringify({ username, password }),
       })
     } catch (networkErr) {
@@ -44,6 +43,7 @@ export default function LoginPage() {
       return
     }
 
+    let body
     try {
       body = await res.json()
     } catch {
@@ -55,6 +55,8 @@ export default function LoginPage() {
       return
     }
 
+    // Guardamos el token en sessionStorage y redirigimos
+    sessionStorage.setItem('token', body.accessToken)
     console.log('✅ Token recibido:', body.accessToken)
     Router.push('/dashboard')
   }

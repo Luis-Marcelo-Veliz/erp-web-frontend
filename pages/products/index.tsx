@@ -1,7 +1,11 @@
+// pages/products/index.tsx
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
-/** Importar la función para detectar la URL base del backend */
+/**
+ * Detecta dinámicamente la URL base del backend,
+ * restando 1 al puerto actual en entornos Codespaces/preview.
+ */
 function getBackendBaseUrl(): string {
   const protocol = window.location.protocol;
   const hostname = window.location.hostname;
@@ -32,7 +36,6 @@ export default function ProductsList() {
     async function fetchProducts() {
       const token = sessionStorage.getItem('token');
       if (!token) {
-        // Si no hay token, volvemos al login
         router.replace('/login');
         return;
       }
@@ -44,7 +47,6 @@ export default function ProductsList() {
         });
 
         if (res.status === 401) {
-          // Token inválido o expirado
           sessionStorage.removeItem('token');
           router.replace('/login');
           return;

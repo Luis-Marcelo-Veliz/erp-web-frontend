@@ -5,4 +5,4 @@ if (!match) return `${protocol}//${hostname}`;
 const currentPort = parseInt(match\[1], 10);
 const backendPort = currentPort - 1;
 return `${protocol}//${hostname.replace(/-\d+/, `-\${backendPort}`)}`;
-}
+} 

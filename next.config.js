@@ -1,7 +1,17 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-  // Nada especial en desarrollo: el front llamará al backend
-  // mediante getBackendBaseUrl() en tiempo de ejecución.
-}
+/\*\* @type {import('next').NextConfig} \*/
+const dev = process.env.NODE\_ENV !== 'production';
 
-module.exports = nextConfig
+const nextConfig = {
+async rewrites() {
+return \[
+{
+source: '/api/\:path\*',
+destination: dev
+? process.env.NEXT\_PUBLIC\_BACKEND\_URL + '/api/\:path\*'
+: process.env.NEXT\_PUBLIC\_API\_URL + '/api/\:path\*',
+},
+];
+},
+};
+
+module.exports = nextConfig;
